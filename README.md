@@ -7,7 +7,7 @@ Contains all the local level rural municipalities, municipalities, sub-metropoli
 {
 "Province": "Bagmati",
 "District": "CHITWAN",
-"Local Level Name": "Bharatpur Metropolitian City",
+"Local Level Name": "Bharatpur Metropolitan City",
 "Type": "Metropolitian City"
 }
 ```
