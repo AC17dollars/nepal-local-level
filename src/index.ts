@@ -96,6 +96,24 @@ app.get('/list/bydistrict/:district', (req, res) => {
     res.json(result);
 });
 
+app.get('/list/district/byprovince/:province', (req, res) => {
+   // return district list by province
+    let result: Array<string> = [];
+    localLevel.forEach((item) => {
+        if (item['Province'].toLowerCase() === req.params.province.toLowerCase()) {
+            result.push(item["District"]);
+        }
+    }
+    );
+    // remove duplicate
+    result = result.filter((item, index) => {
+        return result.indexOf(item) === index;
+    });
+
+    result.sort();
+    res.json(result);
+});
+
 app.get('/urban', (req, res) => {
     const urban = localLevel.filter((item) => (item.Type === 'Municipality' || item.Type === 'Sub-Metropolitian City' || item.Type === 'Metropolitian City'));
     if (req.query.sortby === 'name') {
@@ -131,7 +149,7 @@ app.get('/rural', (req, res) => {
 });
 
 app.get('/urban/:district', (req, res) => {
-    const urban = localLevel.filter((item) => (item.Type === 'Municipality' || item.Type === 'Sub-Metropolitian City' || item.Type === 'Metropolitian City') && item.District === req.params.district);
+    const urban = localLevel.filter((item) => (item.Type === 'Municipality' || item.Type === 'Sub-Metropolitian City' || item.Type === 'Metropolitian City') && item.District.toLowerCase() === req.params.district.toLowerCase());
     let result = [];
     for (let item in urban) {
         result.push(urban[item]["Local Level Name"]);
@@ -140,7 +158,7 @@ app.get('/urban/:district', (req, res) => {
 });
 
 app.get('/rural/:district', (req, res) => {
-    const rural = localLevel.filter((item) => item.Type === 'Rural Municipality' && item.District === req.params.district);
+    const rural = localLevel.filter((item) => item.Type === 'Rural Municipality' && item.District.toLowerCase() === req.params.district.toLowerCase());
     let result = [];
     for (let item in rural) {
         result.push(rural[item]["Local Level Name"]);
